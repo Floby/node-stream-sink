@@ -1,0 +1,23 @@
+{
+  "name": "stream-sink",
+  "version": "1.0.0",
+  "description": "Collect all data piped to this stream when it closes",
+  "main": "sink.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Floby/node-stream-sink.git"
+  },
+  "keywords": [
+    "stream",
+    "sink",
+    "streams2",
+    "test",
+    "debug"
+  ],
+  "author": "Florent Jaby <florent.jaby@gmail.com>",
+  "license": "MIT",
+  "gitHead": "635fe6e77f2212d01853d09dc602efcb1766dcf3"
+}
