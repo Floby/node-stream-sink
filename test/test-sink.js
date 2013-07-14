@@ -2,6 +2,36 @@ var sink = require('../');
 var stream = require('stream');
 var domain = require('domain');
 
+if(!stream.PassThrough) {
+  stream.PassThrough = function PassThrough() {
+    stream.Stream.call(this);
+    this.writable = true;
+    this.readable = true;
+  }
+  require('util').inherits(stream.PassThrough, stream.Stream);
+  stream.PassThrough.prototype.write = function (chunk, encoding, done) {
+    done = done || function () {};
+    var self = this;
+    process.nextTick(function () {
+      self.emit('data', chunk);
+      done();
+    });
+  }
+  stream.PassThrough.prototype.end = function (chunk, encoding, done) {
+    if(chunk) {
+      var self = this;
+      this.write(chunk, encoding, function () {
+        self.emit('finish');
+        self.emit('end');
+      });
+    }
+    else {
+      this.emit('finish');
+      this.emit('end');
+    }
+  }
+}
+
 Function.prototype.withDomain = function(withStack) {
   var fn = this;
   return function(test) {
