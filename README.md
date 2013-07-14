@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Floby/node-sink.png)](https://travis-ci.org/Floby/node-sink)
+
 stream-sink
 ===========
 
