@@ -3,7 +3,8 @@ var stream = require('stream');
 
 function Sink (options) {
     if(!(this instanceof Sink)) return new Sink()
-    stream.Writable.call(this);
+    options = options || {};
+    stream.Writable.call(this, options);
     this._objectMode = options ? options.objectMode : null;
     this._result = [];
     this.on('finish', function() {
@@ -19,7 +20,7 @@ util.inherits(Sink, stream.Writable);
 
 Sink.prototype._write = function _write(chunk, encoding, callback) {
     if(!this._objectMode) {
-        chunk = chunk.toString(encoding);
+        chunk = chunk.toString();
     }
     this._result.push(chunk);
     return callback();

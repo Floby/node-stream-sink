@@ -1,4 +1,22 @@
 var sink = require('../');
+var stream = require('stream');
+var domain = require('domain');
+
+Function.prototype.withDomain = function(withStack) {
+  var fn = this;
+  return function(test) {
+    var d = domain.create();
+    d.on('error', function(e) {
+      test.fail('test failed with ' + e.message);
+      if(withStack) {
+        console.error(e.stack)
+      }
+      test.done();
+    });
+    d.run(fn.bind(this, test));
+  }
+}
+
 
 exports['empty stream should call end with zero length value'] = function (test) {
   var s = sink();
@@ -52,4 +70,16 @@ exports['asynchronous calls'] = function (test) {
   });
   setTimeout(s.write.bind(s, "hello "), 10);
   setTimeout(s.end.bind(s, "world"), 20);
+}
+
+exports['piping to sink (so buffers)'] = function (test) {
+  var s = sink();
+  var source = new stream.PassThrough();
+  test.expect(1);
+  source.pipe(s).on('data', function(data) {
+    test.equal('hello world', data);
+    test.done();
+  });
+  setTimeout(source.write.bind(source, 'hello '), 5);
+  setTimeout(source.end.bind(source, 'world'), 10);
 }
