@@ -4,7 +4,7 @@
   "description": "Collect all data piped to this stream when it closes",
   "main": "sink.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodeunit test/test-*.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   ],
   "author": "Florent Jaby <florent.jaby@gmail.com>",
   "license": "MIT",
-  "gitHead": "635fe6e77f2212d01853d09dc602efcb1766dcf3"
+  "gitHead": "635fe6e77f2212d01853d09dc602efcb1766dcf3",
+  "devDependencies": {
+    "nodeunit": "~0.8.1"
+  }
 }
