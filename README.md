@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Floby/node-sink.png)](https://travis-ci.org/Floby/node-sink)
+[![Build Status](https://travis-ci.org/Floby/node-stream-sink.png)](https://travis-ci.org/Floby/node-stream-sink)
 
 stream-sink
 ===========
