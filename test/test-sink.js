@@ -83,3 +83,17 @@ exports['piping to sink (so buffers)'] = function (test) {
   setTimeout(source.write.bind(source, 'hello '), 5);
   setTimeout(source.end.bind(source, 'world'), 10);
 }
+
+exports['when in object mode, data should be an array'] = function (test) {
+  var s = sink({objectMode: true});
+  test.expect(3);
+  s.on('data', function(data) {
+    test.ok(Array.isArray(data), "Data should be an array");
+    test.equal(2, data.length, "Data should have a length of two");
+    test.equal('hello world', [].join.call(data, ''));
+    test.done();
+  });
+
+  s.write('hello ');
+  s.end('world');
+}

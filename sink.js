@@ -2,7 +2,7 @@ var util = require('util');
 var stream = require('stream');
 
 function Sink (options) {
-    if(!(this instanceof Sink)) return new Sink()
+    if(!(this instanceof Sink)) return new Sink(options)
     options = options || {};
     stream.Writable.call(this, options);
     this._objectMode = options ? options.objectMode : null;
