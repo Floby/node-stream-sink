@@ -4,7 +4,7 @@
   "description": "Collect all data piped to this stream when it closes",
   "main": "sink.js",
   "scripts": {
-    "test": "nodeunit test/test-*.js"
+    "test": "rm -rf coverage && istanbul cover nodeunit test/test-*.js && istanbul check-coverage --lines 100 --functions 100 --branches 95 --statements 99"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "license": "MIT",
   "gitHead": "635fe6e77f2212d01853d09dc602efcb1766dcf3",
   "devDependencies": {
-    "nodeunit": "~0.8.1"
+    "nodeunit": "~0.8.1",
+    "istanbul": "~0.1.42"
   }
 }

@@ -5,7 +5,7 @@ function Sink (options) {
     if(!(this instanceof Sink)) return new Sink(options)
     options = options || {};
     EventEmitter.call(this);
-    this._objectMode = options ? options.objectMode : null;
+    this._objectMode = options.objectMode || false;
     this._result = [];
     this.on('finish', function() {
       if(this._objectMode) {

@@ -1,9 +1,10 @@
 .*.sw[a-z]
 .*.un~
+.tern-port
 
 node_modules
 
-lib-cov
+coverage
 *.seed
 *.log
 *.csv

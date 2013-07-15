@@ -127,3 +127,12 @@ exports['when in object mode, data should be an array'] = function (test) {
   s.write('hello ');
   s.end('world');
 }
+
+exports['check write calls call callback'] = function (test) {
+  var s = sink();
+  test.expect(1);
+  s.on('data', function(data) {
+    test.done();
+  });
+  s.end('hello', 'utf8', test.ok.bind(test, true));
+}
