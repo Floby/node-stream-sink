@@ -14,18 +14,29 @@ Usage
 -----
 
 ```javascript
-var sink = require('stream-sink');
-readable.pipe(sink()).on('data', function(data) {
-    // YAY!
-});
+const sink = require('stream-sink')
+readable.pipe(sink()).then((data) => {
+    // `data` is a String
+})
 ```
+
+Or with `objectMode: true`
+
+```javascript
+const sink = require('stream-sink')
+readable.pipe(sink('object')).then((data) => {
+    // `data` is an Array
+})
+```
+
+##### 
 
 License
 -------
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2013 Florent Jaby
+Copyright (c) 2016 Florent Jaby
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
