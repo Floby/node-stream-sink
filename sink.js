@@ -1,39 +1,39 @@
-var util = require('util');
-var EventEmitter = require('events').EventEmitter;
+const Stream = require('stream')
+const Writable = Stream.Writable
+const WritableState = Writable.WritableState
+const EventEmitter = require('events').EventEmitter
 
-function Sink (options) {
-    if(!(this instanceof Sink)) return new Sink(options)
-    options = options || {};
-    EventEmitter.call(this);
-    this._objectMode = options.objectMode || false;
-    this._result = [];
-    this.on('finish', function() {
-      if(this._objectMode) {
-        this.emit('data', this._result);
-      }
-      else {
-          this.emit('data', this._result.join(''));
-      }
-    });
-    this.writable = true;
-}
-util.inherits(Sink, EventEmitter);
+module.exports = Sink
 
-Sink.prototype.write = function write(chunk, encoding, callback) {
-    if(!this._objectMode) {
-        chunk = chunk.toString();
-    }
-    this._result.push(chunk);
-    if(typeof callback === 'function') callback();
-    return true;
-};
+function Sink (objectMode) {
+  let _resolve, _reject;
+  const sink = new Promise((resolve, reject) => {
+    _resolve = resolve;
+    _reject = reject;
+  })
+  mixinMethods(sink, Writable.prototype)
+  mixinMethods(sink, EventEmitter.prototype)
+  WritableCtor.call(sink, {objectMode: Boolean(objectMode)})
 
-Sink.prototype.end = function end(chunk, encoding, callback) {
-  if(arguments.length) {
-    this.write(chunk, encoding, callback);
+  const accumulator = []
+
+  sink._write = (chunk, encoding, written) => {
+    accumulator.push(chunk)
+    written()
   }
-  process.nextTick(this.emit.bind(this, 'finish'));
-  return true;
+  sink.on('finish', () => _resolve(objectMode ? accumulator : accumulator.join('')))
+  sink.on('error', _reject)
+  return sink
 }
 
-module.exports = Sink;
+function mixinMethods (sink, prototype) {
+  Object.keys(prototype).forEach(method => {
+    sink[method] = prototype[method]
+  })
+}
+
+function WritableCtor(options) {
+  this._writableState = new WritableState(options, this)
+  this.writable = true
+  Stream.call(this)
+}
