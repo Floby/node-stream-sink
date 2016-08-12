@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const stream = require('stream')
 const expect = require('chai').expect
 const Sink = require('../sink')
@@ -27,7 +28,7 @@ describe('sink()', () => {
 
     describe('and an error occurs', () => {
       it('rejects with the error', () => {
-        const error = Error('my error');
+        const error = Error('my error')
         const source = stream.PassThrough()
         setTimeout(() => { sink.emit('error', error) }, 5)
         return source.pipe(sink).then(() => {
@@ -65,7 +66,7 @@ describe('sink("object")', () => {
 
     describe('and an error occurs', () => {
       it('rejects with the error', () => {
-        const error = Error('my error');
+        const error = Error('my error')
         const source = stream.PassThrough()
         setTimeout(() => { sink.emit('error', error) }, 5)
         return source.pipe(sink).then(() => {
@@ -75,8 +76,6 @@ describe('sink("object")', () => {
     })
   })
 })
-
-
 
 function fromString (content) {
   const str = stream.PassThrough()

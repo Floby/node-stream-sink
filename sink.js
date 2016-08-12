@@ -6,10 +6,10 @@ const EventEmitter = require('events').EventEmitter
 module.exports = Sink
 
 function Sink (objectMode) {
-  let _resolve, _reject;
+  let _resolve, _reject
   const sink = new Promise((resolve, reject) => {
-    _resolve = resolve;
-    _reject = reject;
+    _resolve = resolve
+    _reject = reject
   })
   mixinMethods(sink, Writable.prototype)
   mixinMethods(sink, EventEmitter.prototype)
@@ -32,7 +32,7 @@ function mixinMethods (sink, prototype) {
   })
 }
 
-function WritableCtor(options) {
+function WritableCtor (options) {
   this._writableState = new WritableState(options, this)
   this.writable = true
   Stream.call(this)
