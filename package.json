@@ -4,7 +4,7 @@
   "description": "Collect all data piped to this stream when it closes",
   "main": "sink.js",
   "scripts": {
-    "test": "rm -rf coverage && istanbul cover _mocha -- -R spec test && istanbul check-coverage --lines 100 --functions 100 --branches 95 --statements 99"
+    "test": "rm -rf coverage && istanbul cover node_modules/mocha/bin/_mocha -- test && istanbul check-coverage --lines 100 --functions 100 --branches 95 --statements 99"
   },
   "repository": {
     "type": "git",
