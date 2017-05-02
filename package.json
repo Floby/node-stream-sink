@@ -20,6 +20,9 @@
   "author": "Florent Jaby <florent.jaby@gmail.com>",
   "license": "MIT",
   "gitHead": "635fe6e77f2212d01853d09dc602efcb1766dcf3",
+  "engines": {
+    "node": ">=4.0"
+  },
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.4",
