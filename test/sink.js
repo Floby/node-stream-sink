@@ -1,3 +1,5 @@
+"use strict"
+
 /* eslint-env mocha */
 const stream = require('stream')
 const expect = require('chai').expect
