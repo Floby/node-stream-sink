@@ -1,3 +1,4 @@
+'use strict'
 const Stream = require('stream')
 const Writable = Stream.Writable
 const WritableState = Writable.WritableState
