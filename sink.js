@@ -26,6 +26,9 @@ function Sink (objectMode) {
   sink.on('error', _reject)
   return sink
 }
+Sink.object = function () {
+  return Sink('object')
+}
 
 function mixinMethods (sink, prototype) {
   Object.keys(prototype).forEach(method => {

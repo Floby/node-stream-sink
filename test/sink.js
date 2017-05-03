@@ -40,7 +40,7 @@ describe('sink()', () => {
   })
 })
 
-describe('sink("object")', () => {
+describe('sink.object()', () => {
   let sink
   beforeEach(() => { sink = new Sink('object') })
   it('is a promise', () => {

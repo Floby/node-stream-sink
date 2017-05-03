@@ -24,7 +24,7 @@ Or with `objectMode: true`
 
 ```javascript
 const sink = require('stream-sink')
-readable.pipe(sink('object')).then((data) => {
+readable.pipe(sink.object()).then((data) => {
     // `data` is an Array
 })
 ```
