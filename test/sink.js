@@ -42,7 +42,7 @@ describe('sink()', () => {
 
 describe('sink.object()', () => {
   let sink
-  beforeEach(() => { sink = new Sink('object') })
+  beforeEach(() => { sink = Sink.object() })
   it('is a promise', () => {
     expect(sink).to.be.an.instanceOf(Promise)
   })
