@@ -35,8 +35,8 @@ function Sink (options) {
 
   return sink
 }
-Sink.object = function () {
-  return Sink({ objectMode: true })
+Sink.object = function (options) {
+  return Sink(Object.assign({}, options, { objectMode: true }))
 }
 
 function mixinMethods (sink, prototype) {

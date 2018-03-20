@@ -115,6 +115,45 @@ describe('sink.object()', () => {
   })
 })
 
+describe('sink.object({ upstreamError: true })', () => {
+  let sink
+  beforeEach(() => { sink = Sink.object({ upstreamError: true }) })
+
+  describe('when piped some content', () => {
+    it('resolves to an array of the content', () => {
+      const source = stream.PassThrough({objectMode: true})
+      source.write({a: 'hello'})
+      source.end({b: 'world'})
+      return source.pipe(sink).then((data) => {
+        expect(data).to.deep.equal([{a: 'hello'}, {b: 'world'}])
+      })
+    })
+
+    describe('and an error occurs', () => {
+      it('rejects with the error', () => {
+        const error = Error('my error')
+        const source = stream.PassThrough()
+        setTimeout(() => { sink.emit('error', error) }, 5)
+        return source.pipe(sink).then(() => {
+          throw Error('this should not resolve')
+        }).catch(e => expect(e).to.equal(error))
+      })
+    })
+
+    describe('and an error occurs on the upstream', () => {
+      it('rejects with the error', () => {
+        const error = Error('my error')
+        const source = stream.PassThrough({ objectMode: true })
+        source.write({ some: 'data' })
+        setTimeout(() => { source.emit('error', error) }, 5)
+        return source.pipe(sink).then(() => {
+          throw Error('this should not resolve')
+        }).catch(e => expect(e).to.equal(error))
+      })
+    })
+  })
+})
+
 function fromString (content) {
   const str = stream.PassThrough()
   str.end(content)
