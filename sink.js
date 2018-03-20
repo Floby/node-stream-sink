@@ -6,15 +6,18 @@ const EventEmitter = require('events').EventEmitter
 
 module.exports = Sink
 
-function Sink (objectMode) {
+function Sink (options) {
   let _resolve, _reject
   const sink = new Promise((resolve, reject) => {
     _resolve = resolve
     _reject = reject
   })
+  if (typeof options !== 'object') {
+    options = { objectMode: Boolean(options) }
+  }
   mixinMethods(sink, Writable.prototype)
   mixinMethods(sink, EventEmitter.prototype)
-  WritableCtor.call(sink, {objectMode: Boolean(objectMode)})
+  WritableCtor.call(sink, {objectMode: Boolean(options.objectMode)})
 
   const accumulator = []
 
@@ -22,12 +25,18 @@ function Sink (objectMode) {
     accumulator.push(chunk)
     written()
   }
-  sink.on('finish', () => _resolve(objectMode ? accumulator : accumulator.join('')))
+  sink.on('finish', () => _resolve(options.objectMode ? accumulator : accumulator.join()))
   sink.on('error', _reject)
+  if (options.upstreamError) {
+    sink.on('pipe', (source) => {
+      source.on('error', _reject)
+    })
+  }
+
   return sink
 }
 Sink.object = function () {
-  return Sink('object')
+  return Sink({ objectMode: true })
 }
 
 function mixinMethods (sink, prototype) {
