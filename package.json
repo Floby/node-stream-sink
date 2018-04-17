@@ -22,6 +22,7 @@
   "gitHead": "635fe6e77f2212d01853d09dc602efcb1766dcf3",
   "devDependencies": {
     "chai": "^4.1.2",
+    "delay": "^2.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.0.1"
   }

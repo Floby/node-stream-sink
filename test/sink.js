@@ -1,5 +1,6 @@
 'use strict'
 /* eslint-env mocha */
+const delay = require('delay')
 const stream = require('stream')
 const expect = require('chai').expect
 const Sink = require('../sink')
@@ -49,6 +50,20 @@ describe('sink({ upstreamError: true })', () => {
       const source = fromString('hello world!')
       return source.pipe(sink).then((data) => {
         expect(data).to.equal('hello world!')
+      })
+    })
+
+    describe('with new lines', () => {
+      it('resolves to the aggregate of the content', () => {
+        const source = stream.PassThrough()
+        source.write('Hello\n')
+        delay(10).then(() => source.write('World\r'))
+        delay(20).then(() => source.write('!!!\r\n'))
+        delay(50).then(() => source.write('QUIT'))
+        delay(80).then(() => source.end())
+        return source.pipe(sink).then((data) => {
+          expect(data).to.equal('Hello\nWorld\r!!!\r\nQUIT')
+        })
       })
     })
 

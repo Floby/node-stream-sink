@@ -25,7 +25,7 @@ function Sink (options) {
     accumulator.push(chunk)
     written()
   }
-  sink.on('finish', () => _resolve(options.objectMode ? accumulator : accumulator.join()))
+  sink.on('finish', () => _resolve(options.objectMode ? accumulator : accumulator.join('')))
   sink.on('error', _reject)
   if (options.upstreamError) {
     sink.on('pipe', (source) => {
